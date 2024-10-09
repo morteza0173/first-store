@@ -21,3 +21,8 @@
 body {
   font-family: Vazirmatn, sans-serif;
 }
+
+
+.range {
+  direction: ltr; /* تعیین جهت چپ به راست برای نوار رنج */
+}
