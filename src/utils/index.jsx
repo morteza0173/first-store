@@ -9,7 +9,7 @@ export const customFetch = axios.create({
 export const formatPrice = (price) => {
   const tomanAmount = new Intl.NumberFormat("fa", {
     style: "decimal",
-  }).format(price * 1000);
+  }).format(price * 100);
   return {
     amount: tomanAmount,
     formated: `${tomanAmount} تومان`,
