@@ -15,7 +15,7 @@ const PaginationContainer = () => {
     searchParams.set("page", pageNumber);
     navigate(`${pathname}?${searchParams.toString()}`);
 
-    console.log(pageNumber);
+   
   };
 
   if (pageCount < 2) {

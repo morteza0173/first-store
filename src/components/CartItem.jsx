@@ -42,7 +42,7 @@ const CartItem = ({ cartItem }) => {
         </p>
       </div>
 
-      <div className="sm:mr-24">
+      <div className="sm:mr-12">
         {/* تعداد */}
         <div className="form-control max-w-xs">
           <label htmlFor="amount" className="label p-0">
