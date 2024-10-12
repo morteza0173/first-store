@@ -7,8 +7,25 @@ import {
   SectionTitle,
 } from "../components";
 
+const ordersQuery = (params, user) => {
+  return {
+    queryKey: [
+      "orders",
+      user.username,
+      params.page ? parseInt(params.page) : 1,
+    ],
+    queryFn: () =>
+      customFetch.get("/orders", {
+        params,
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }),
+  };
+};
+
 export const loader =
-  (store) =>
+  (store, queryClient) =>
   async ({ request }) => {
     const user = store.getState().userState.user;
     if (!user) {
@@ -19,13 +36,9 @@ export const loader =
       ...new URL(request.url).searchParams.entries(),
     ]);
     try {
-      const response = await customFetch.get("/orders", {
-        params,
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      console.log(response);
+      const response = await queryClient.ensureQueryData(
+        ordersQuery(params, user)
+      );
 
       return { orders: response.data.data, meta: response.data.meta };
     } catch (error) {
@@ -33,7 +46,7 @@ export const loader =
         error?.response?.data?.error?.message ||
         "مشکلی در دریافت داده ها رخ داده";
       toast.error(errorMessage);
-      if (error.response.status === 401 || 403) {
+      if (error?.response?.status === 401 || 403) {
         return redirect("/login");
       }
       return null;

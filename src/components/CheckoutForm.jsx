@@ -6,7 +6,7 @@ import { clearCart } from "../features/cart/cartSlice";
 import { toast } from "react-toastify";
 
 export const action =
-  (store) =>
+  (store,queryClient) =>
   async ({ request }) => {
     const formData = await request.formData();
     const { name, address } = Object.fromEntries(formData);
@@ -35,6 +35,7 @@ export const action =
           },
         }
       );
+      queryClient.removeQueries(['orders'])
       store.dispatch(clearCart());
       toast.success("خرید شما با موفقیت ثبت شد");
 
@@ -44,7 +45,7 @@ export const action =
         error?.response?.data?.error?.message ||
         "لطفا اطلاعات را به صورت صحیح وارد کنید";
       toast.error(errorMessage);
-      if (error.response.status === 401 || 403) {
+      if (error?.response?.status === 401 || 403) {
         return redirect("/login");
       }
       return null;

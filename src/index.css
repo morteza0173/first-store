@@ -30,3 +30,7 @@ body {
   font-family: Vazirmatn, sans-serif !important;
   direction: rtl;
 }
+
+html {
+  transition: background-color 300ms ease-in-out;
+}
